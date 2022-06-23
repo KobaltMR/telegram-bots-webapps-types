@@ -1,20 +1,20 @@
 # Telegram Web Apps for Bots TypeScript typings
 
-TypeScript typings for Telegram Web Apps for Bots. See https://core.telegram.org/bots/webapps
+TypeScript's typings for Telegram Web Apps for Bots.
+See https://core.telegram.org/bots/webapps
 
 ## Usage
 
 ### Install the package
 
-Using `npm`
-
-```
-npm install telegram-webapps-types
-```
+| npm                                  | yarn                              |
+|:-------------------------------------|-----------------------------------|
+| `npm install telegram-webapps-types` | `yarn add telegram-webapps-types` |
 
 ### If you are working on a `TypeScript` project
 
-Include the types file inside your [`tsconfig.json`](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+Include the types file inside your
+[`tsconfig.json`](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
 file like this:
 
 ```diff
