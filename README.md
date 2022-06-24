@@ -7,9 +7,9 @@ See https://core.telegram.org/bots/webapps
 
 ### Install the package
 
-| npm                                  | yarn                              |
-|:-------------------------------------|-----------------------------------|
-| `npm install telegram-webapps-types` | `yarn add telegram-webapps-types` |
+| npm                                       | yarn                                   |
+|:------------------------------------------|----------------------------------------|
+| `npm install telegram-bots-webapps-types` | `yarn add telegram-bots-webapps-types` |
 
 ### If you are working on a `TypeScript` project
 
@@ -22,7 +22,7 @@ file like this:
   "compilerOptions": {
 +   "typeRoots": [
 +     "./node_modules/@types",
-+     "./node_modules/telegram-webapps-types"
++     "./node_modules/telegram-bots-webapps-types"
 +   ]
   }
 }
@@ -42,7 +42,7 @@ file like this:
   "compilerOptions": {
     "typeRoots": [
       "./node_modules/@types",
-      "./node_modules/telegram-webapps-types"
+      "./node_modules/telegram-bots-webapps-types"
     ]
   }
 }
