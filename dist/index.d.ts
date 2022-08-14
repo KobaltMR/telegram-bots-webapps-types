@@ -7,7 +7,8 @@ export declare namespace TelegramWebApps {
    * Available app events.
    */
   type EventType = "themeChanged" | "viewportChanged" | "mainButtonClicked"
-      | "backButtonClicked" | "settingsButtonClicked" | "invoiceClosed";
+      | "backButtonClicked" | "settingsButtonClicked" | "invoiceClosed"
+      | "popupClosed";
 
   interface WebApp {
     /**
@@ -41,11 +42,13 @@ export declare namespace TelegramWebApps {
      */
     isExpanded: boolean;
     /**
-     * The current height of the visible area of the Web App. Also available in CSS as the variable var(--tg-viewport-height).
+     * The current height of the visible area of the Web App.
+     * Also available in CSS as the variable var(--tg-viewport-height).
      */
     viewportHeight: number;
     /**
-     * The height of the visible area of the Web App in its last stable state. Also available in CSS as a variable var(--tg-viewport-stable-height).
+     * The height of the visible area of the Web App in its last stable state.
+     * Also available in CSS as a variable var(--tg-viewport-stable-height).
      */
     viewportStableHeight: number;
     /**
@@ -58,6 +61,12 @@ export declare namespace TelegramWebApps {
      * @since 6.1
      */
     backgroundColor: string;
+    /**
+     * True, if the confirmation dialog is enabled while the user is trying to close the Web App.
+     * False, if the confirmation dialog is disabled.
+     * @since 6.2
+     */
+    isClosingConfirmationEnabled: boolean;
     /**
      * An object for controlling the back button which can be displayed in the header of the Web App in the Telegram interface.
      * @since 6.1
@@ -88,6 +97,16 @@ export declare namespace TelegramWebApps {
      */
     setBackgroundColor(color: string): void;
     /**
+     * A method that enables a confirmation dialog while the user is trying to close the Web App.
+     * @since 6.2
+     */
+    enableClosingConfirmation(): void;
+    /**
+     * A method that disables the confirmation dialog while the user is trying to close the Web App.
+     * @since 6.2
+     */
+    disableClosingConfirmation(): void;
+    /**
      * A method that sets the app event handler.
      */
     onEvent(eventType: EventType, eventHandler: Function): void;
@@ -117,6 +136,25 @@ export declare namespace TelegramWebApps {
      * @since 6.1
      */
     openInvoice(url: string, callback?: Function): void;
+    /**
+     * A method that shows a native popup described by the params argument of the type PopupParams.
+     * The Web App will receive the event popupClosed when the popup is closed.
+     * If an optional callback parameter was passed, the callback function will be called and the field id of the pressed button will be passed as the first argument.
+     * @since 6.2
+     */
+    showPopup(params: PopupParams, callback?: Function): void;
+    /**
+     * A method that shows message in a simple alert with a 'Close' button.
+     * If an optional callback parameter was passed, the callback function will be called when the popup is closed.
+     * @since 6.2
+     */
+    showAlert(message: string, callback?: Function): void;
+    /**
+     * A method that shows message in a simple confirmation window with 'OK' and 'Cancel' buttons.
+     * If an optional callback parameter was passed, the callback function will be called when the popup is closed and the first argument will be a boolean indicating whether the user pressed the 'OK' button.
+     * @since 6.2
+     */
+    showConfirm(message: string, callback?: Function): void;
     /**
      * A method that informs the Telegram app that the Web App is ready to be displayed.
      */
@@ -168,6 +206,48 @@ export declare namespace TelegramWebApps {
      * @since 6.1
      */
     secondary_bg_color?: string;
+  }
+
+  interface PopupParams {
+    /**
+     * Optional. The text to be displayed in the popup title, 0-64 characters.
+     */
+    title?: string;
+    /**
+     * The message to be displayed in the body of the popup, 1-256 characters.
+     */
+    message: string;
+    /**
+     * Optional. List of buttons to be displayed in the popup, 1-3 buttons. Set to [{“type”:“close”}] by default.
+     */
+    buttons?: PopupButton[];
+  }
+
+  interface PopupButton {
+    /**
+     * Optional. Identifier of the button, 0-64 characters.
+     * Set to empty string by default.
+     * If the button is pressed, its id is returned in the callback and the popupClosed event.
+     */
+    id?: string;
+    /**
+     * Optional. Type of the button.
+     * Set to default by default.
+     *
+     * Can be one of these values:
+     * - default, a button with the default style,
+     * - ok, a button with the localized text “OK”,
+     * - close, a button with the localized text “Close”,
+     * - cancel, a button with the localized text “Cancel”,
+     * - destructive, a button with a style that indicates a destructive action (e.g. “Remove”, “Delete”, etc.).
+     */
+    type?: string;
+    /**
+     * Optional. The text to be displayed on the button, 0-64 characters.
+     * Required if type is default or destructive.
+     * Irrelevant for other types.
+     */
+    text?: string;
   }
 
   interface WebAppInitData {
@@ -233,6 +313,11 @@ export declare namespace TelegramWebApps {
      * IETF language tag of the user's language. Returns in user field only.
      */
     language_code?: string;
+    /**
+     * True, if this user is a Telegram Premium user.
+     * @since 6.2
+     */
+    is_premium?: boolean;
     /**
      * URL of the user’s profile photo. The photo can be in .jpeg or .svg formats. Only returned for Web Apps launched from the attachment menu.
      */
